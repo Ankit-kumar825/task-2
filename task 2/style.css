@@ -1,0 +1,112 @@
+/* -------- GLOBAL -------- */
+:root {
+    --bg: #fbe3e8;
+    --text: #f2ff;
+    --muted: #7d3cff;
+    --surface: #0f1621;
+    --line: rgba(255, 255, 255, .08);
+    --radius: 16px;
+    --shadow: 0 8px 24px rgba(0, 0, 0, .25);
+    --accent: #6a5cff;
+    --accent-2: #00d4ff;
+}
+body {
+    margin: 0;
+    padding: 0;
+    margin: 0;
+    background: radial-gradient(1200px 600px at 20% -10%, color-mix(in oklab, var(--accent) 60%, white 10%) 0, transparent 55%), radial-gradient(1000px 500px at 90% 0%, color-mix(in oklab, var(--accent-2) 55%, white 10%) 0, transparent 55%), var(--bg);
+    color: var(--text);
+    font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+    font-family: Arial, sans-serif;
+    
+}
+
+.site-header {
+    text-align: center;
+    padding: 30px 10px;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #666;
+}
+
+/* -------- GALLERY GRID -------- */
+.gallery {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* -------- CARD -------- */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.thumb {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.name {
+    margin: 10px 0 5px;
+    font-size: 1.2rem;
+}
+
+.desc {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.price {
+    font-weight: bold;
+    color: #222;
+}
+
+.btn {
+    padding: 6px 14px;
+    background: #0077ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.btn:hover {
+    background: #0059c9;
+}
+
+/* -------- RESPONSIVE -------- */
+@media (max-width: 900px) {
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,158 @@
+/* Reset default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body and global styles */
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f7f7f7;
+}
+
+/* Header */
+header {
+  background-color: #252214;
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+/* Main Container */
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* About Section */
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.about img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 4px solid #1e1e1e;
+}
+
+.bio h2 {
+  margin-bottom: 0.5rem;
+  color: #1e1e1e;
+}
+
+.bio p {
+  color: #555;
+}
+
+/* Social Links Section */
+.socials {
+  text-align: center;
+}
+
+.socials h2 {
+  margin-bottom: 1rem;
+  color: #1e1e1e;
+}
+
+.socials ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.socials a {
+  text-decoration: none;
+  color: #0077b5;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.socials a:hover {
+  color: #004f73;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #1e1e1e;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .about {
+    flex-direction: row;
+    text-align: left;
+    justify-content: space-between;
+  }
+
+  .about img {
+    margin-bottom: 0;
+  }
+
+  .bio {
+    flex: 1;
+    margin-left: 2rem;
+  }
+  /* Skills Section */
+.skills {
+  background-color: #fff;
+  padding: 2rem 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.skills h2 {
+  color: #1e1e1e;
+  margin-bottom: 1rem;
+}
+
+.skills ul {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0;
+}
+
+.skills li {
+  background-color: #0077b5;
+  color: #20a59c;
+  padding: 0.7rem 1.2rem;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.skills li:hover {
+  background-color: #005a84;
+}
+}
