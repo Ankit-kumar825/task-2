@@ -1,0 +1,134 @@
+
+$font-main: "Poppins", sans-serif;
+
+// Spacing
+$space-1: 0.5rem;
+$space-2: 1rem;
+$space-3: 1.5rem;
+
+// Light Mode
+$light-bg: #ffffff;
+$light-text: #222;
+$light-card: #f4f4f4;
+
+// Dark Mode
+$dark-bg: #111;
+$dark-text: #f8f8f8;
+$dark-card: #1b1b1b;
+
+// -------------------------------------
+// MIXINS
+// -------------------------------------
+@mixin card {
+  background: var(--card);
+  padding: $space-2;
+  border-radius: 10px;
+  margin-bottom: $space-2;
+}
+
+@mixin section-title {
+  margin-bottom: $space-2;
+  font-size: 1.4rem;
+  border-left: 5px solid var(--text);
+  padding-left: $space-1;
+}
+
+// -------------------------------------
+// THEME VARIABLES (CSS CUSTOM PROPERTIES)
+// -------------------------------------
+:root {
+  --bg: #{$light-bg};
+  --text: #{$light-text};
+  --card: #{$light-card};
+}
+
+[data-theme="dark"] {
+  --bg: #{$dark-bg};
+  --text: #{$dark-text};
+  --card: #{$dark-card};
+}
+
+// -------------------------------------
+// GLOBAL STYLES
+// -------------------------------------
+body {
+  font-family: $font-main;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  transition: 0.3s ease;
+
+  // HEADER
+  header {
+    background: var(--card);
+    padding: $space-3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: var(--text);
+      color: var(--bg);
+      font-weight: bold;
+    }
+  }
+
+  // MAIN
+  main {
+    padding: $space-3;
+
+    // Live Score Section
+    .live-score {
+      h2 {
+        @include section-title;
+      }
+
+      .score-box {
+        display: flex;
+        gap: 1rem;
+
+        .team {
+          @include card;
+          text-align: center;
+
+          h3 {
+            margin-bottom: $space-1;
+          }
+        }
+      }
+    }
+
+    // MATCH DETAILS
+    .match-details {
+      margin-top: $space-3;
+
+      h2 {
+        @include section-title;
+      }
+
+      p {
+        margin-bottom: $space-1;
+      }
+
+      // Highlight box for Indian players
+      .highlight-box {
+        @include card;
+        border-left: 6px solid #0088ff;
+        padding: $space-3;
+
+        h3 {
+          margin-bottom: $space-1;
+          color: #0088ff;
+        }
+
+        p {
+          margin-bottom: 0.4rem;
+        }
+      }
+    }
+  }
+}
