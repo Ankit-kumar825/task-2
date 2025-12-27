@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Product Showcase</title>
+    <style> body {
+    font-family: serif;
+    padding: 20px;
+    background-color: #f5f5f5;
+    color: #222;
+    transition: background 0.3s, color 0.3s;
+}
+
+button, input, select {
+    padding: 6px 10px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+button {
+    cursor: pointer;
+}
+
+#products p {
+    background: #fff;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* 🌙 Dark Theme */
+.dark {
+    background-color: #121212;
+    color: #eee;
+}
+
+.dark #products p {
+    background: #1e1e1e;
+}
+
+</style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script>const loadBtn = document.getElementById("loadData");
+const emptyText = document.getElementById("emptyText");
+const productsDiv = document.getElementById("products");
+
+let loaded = false;
+
+loadBtn.addEventListener("click", () => {
+    if (loaded) return;
+
+    emptyText.textContent = "Products loaded (sample).";
+    loaded = true;
+
+    const sampleProducts = [
+        { name: "Laptop", price: 50000 },
+        { name: "Keyboard", price: 1500 },
+        { name: "Mouse", price: 600 }
+    ];
+
+    sampleProducts.forEach(p => {
+        const item = document.createElement("p");
+        item.textContent = `${p.name} — ₹${p.price}`;
+        productsDiv.appendChild(item);
+    });
+});
+</script>
+
+    <h1>OOP Product Showcase</h1>
+
+    <button id="themeBtn">Theme</button>
+
+    <br><br>
+
+    <label>Search products</label>
+    <input type="text" id="search" placeholder="Search by title or category">
+
+    <select id="sort">
+        <option value="default">Sort: Default</option>
+        <option value="low-high">Price: Low → High</option>
+        <option value="high-low">Price: High → Low</option>
+    </select>
+
+    <br><br>
+
+    <button id="loadData">Load Sample Data</button>
+
+    <p id="emptyText">No products yet. Click <b>Load Sample Data</b>.</p>
+
+    <div id="products"></div>
+
+    <p>© 2025 Task 8 — OOP + SCSS + Theming</p>
+
+    <script src="script.js"></script>
+</body>
+</html>

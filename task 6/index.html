@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Conditional Greeting</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Greeting Generator</h2>
+
+    <input type="text" id="nameInput" placeholder="Enter your name">
+
+    <select id="moodInput">
+      <option value="">Select your mood</option>
+      <option value="happy">Happy 😊</option>
+      <option value="sad">Sad 😢</option>
+      <option value="excited">Excited 🎉</option>
+    </select>
+
+    <button onclick="generateGreeting()">Greet Me</button>
+
+    <div id="message"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

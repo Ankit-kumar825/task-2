@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Task Manager</title>
+  <style>body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.app {
+  background: #ffffff;
+  width: 400px;
+  padding: 20px 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#task-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#task-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #2196f3;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #1976d2;
+}
+
+/* Task list */
+#task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#task-list li {
+  background: #fafafa;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #c62828;
+}
+</style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <script>const form = document.getElementById("task-form");
+const input = document.getElementById("task-input");
+const list = document.getElementById("task-list");
+
+// Add task
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const text = input.value.trim();
+  if (text === "") return;
+
+  const li = document.createElement("li");
+  li.textContent = text;
+
+  const del = document.createElement("button");
+  del.textContent = "Delete";
+  del.className = "delete-btn";
+
+  del.addEventListener("click", () => {
+    li.remove();
+  });
+
+  li.appendChild(del);
+  list.appendChild(li);
+
+  input.value = "";
+});
+</script>
+  <div class="app">
+    <h1>Task Manager</h1>
+
+    <!-- Task Input -->
+    <form id="task-form">
+      <input
+        type="text"
+        id="task-input"
+        placeholder="Add a new task..."
+        autocomplete="off"
+      />
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- Task List -->
+    <ul id="task-list"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Task 11 — Weather Dashboard (Modules + Async)</title>
+  <style>:root {
+  --bg: #f4f4f4;
+  --text: #111;
+  --card: #ffffff;
+  --border: #ddd;
+}
+
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --text: #f9f9f9;
+  --card: #222;
+  --border: #444;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+}
+
+.container {
+  width: min(900px, 95%);
+  margin: auto;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+}
+
+/* Search */
+.search {
+  position: relative;
+}
+.search input {
+  padding: 10px 14px;
+  width: 260px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Suggestions */
+.suggestions {
+  position: absolute;
+  top: 42px;
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: none;
+}
+.suggestions div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.suggestions div:hover {
+  background: #eee;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-top: 16px;
+}
+
+/* Forecast grid */
+.grid {
+  margin-top: 18px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.grid .day {
+  padding: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Buttons */
+.btn {
+  background: #ffcc00;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 14px;
+}
+</style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <script>import { searchCities } from "./modules/search.js";
+import { fetchWeather } from "./modules/weather.js";
+import { renderCurrent, renderForecast } from "./modules/ui.js";
+
+const q = document.getElementById("q");
+const suggestBox = document.getElementById("suggestions");
+const statusEl = document.getElementById("status");
+
+q.addEventListener("input", async () => {
+  const text = q.value.trim();
+  if (text.length < 2) return (suggestBox.style.display = "none");
+
+  const results = await searchCities(text);
+
+  suggestBox.innerHTML = "";
+  suggestBox.style.display = "block";
+
+  results.forEach(r => {
+    const div = document.createElement("div");
+    div.textContent = `${r.name}, ${r.country}`;
+    div.onclick = () => {
+      q.value = r.name;
+      suggestBox.style.display = "none";
+      loadWeather(r.latitude, r.longitude, r.timezone);
+    };
+    suggestBox.appendChild(div);
+  });
+});
+
+async function loadWeather(lat, lon, tz) {
+  statusEl.textContent = "Loading weather…";
+
+  const data = await fetchWeather(lat, lon, tz);
+  statusEl.textContent = "";
+
+  renderCurrent(data);
+  renderForecast(data);
+}
+
+/* THEME TOGGLE */
+const themeBtn = document.getElementById("themeBtn");
+themeBtn.onclick = () => {
+  const root = document.documentElement;
+  const now = root.getAttribute("data-theme");
+
+  root.setAttribute("data-theme", now === "light" ? "dark" : "light");
+};
+</script>
+  <header class="site-header container">
+    <h1 class="brand">☀️ Weather Dashboard</h1>
+
+    <div class="controls">
+      <div class="search">
+        <input id="q" type="search" placeholder="Search city (e.g., Vijayawada, Chennai, Delhi)…" autocomplete="off" />
+        <div id="suggestions" class="suggestions" role="listbox"></div>
+      </div>
+
+      <button id="themeBtn" class="btn" type="button">🌗</button>
+    </div>
+  </header>
+
+  <main class="container content">
+    <div id="status" class="status"></div>
+
+    <section id="current" class="panel card"></section>
+    <section id="forecast" class="grid"></section>
+  </main>
+
+  <footer class="site-footer container">
+    © <span id="y"></span> Task 11 — Weather via Open-Meteo & ES Modules
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

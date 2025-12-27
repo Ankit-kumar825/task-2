@@ -1,0 +1,201 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Weather App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .app {
+      width: 100%;
+      max-width: 420px;
+      padding: 1.5rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    form {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    input {
+      flex: 1;
+      padding: 0.6rem 0.8rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.6rem 0.9rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      background: #ffd54f;
+      color: #333;
+      font-weight: 600;
+    }
+    .message {
+      min-height: 1.2rem;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .message.error {
+      color: #ffebee;
+    }
+    .card {
+      background: rgba(0,0,0,0.25);
+      padding: 1rem;
+      border-radius: 1rem;
+      display: none;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+    }
+    .city {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .temp {
+      font-size: 2.4rem;
+      font-weight: 700;
+    }
+    .details { margin-top: 0.5rem; }
+    .label { font-weight: 600; }
+    .comment {
+      margin-top: 0.75rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed #fff;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <h1>Weather</h1>
+
+    <form id="weather-form">
+      <input type="text" id="city-input" placeholder="Type city name..." />
+      <button type="submit">Check</button>
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div id="weather-card" class="card">
+      <div class="card-header">
+        <div>
+          <span id="city-name" class="city"></span>
+          <span id="country"></span>
+        </div>
+        <div class="temp"><span id="temp"></span>°C</div>
+      </div>
+
+      <div class="details">
+        <div><span class="label">Condition:</span> <span id="condition"></span></div>
+        <div><span class="label">Wind:</span> <span id="wind"></span> km/h</div>
+        <div><span class="label">Direction:</span> <span id="wind-dir"></span>°</div>
+        <div><span class="label">Local time:</span> <span id="time"></span></div>
+      </div>
+
+      <div id="comment" class="comment"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("weather-form");
+    const cityInput = document.getElementById("city-input");
+    const msg = document.getElementById("message");
+    const card = document.getElementById("weather-card");
+
+    const cityName = document.getElementById("city-name");
+    const country = document.getElementById("country");
+    const temp = document.getElementById("temp");
+    const condition = document.getElementById("condition");
+    const wind = document.getElementById("wind");
+    const windDir = document.getElementById("wind-dir");
+    const time = document.getElementById("time");
+    const comment = document.getElementById("comment");
+
+    function weatherText(code) {
+      if (code === 0) return "Clear sky ☀️";
+      if ([1, 2].includes(code)) return "Sunny ⛅";
+      if (code === 3) return "Cloudy ☁️";
+      if ([61, 63, 65].includes(code)) return "Rain 🌧️";
+      if ([71, 73, 75].includes(code)) return "Snow ❄️";
+      return "Unknown";
+    }
+
+    function advice(t) {
+      if (t > 35) return "Very hot — stay hydrated!";
+      if (t > 25) return "Warm day.";
+      if (t > 18) return "Nice weather.";
+      if (t > 10) return "Cool weather.";
+      return "Cold — wear warm clothes!";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const city = cityInput.value.trim();
+
+      if (!city) {
+        msg.textContent = "Please enter a city.";
+        msg.className = "message error";
+        return;
+      }
+
+      msg.textContent = "Searching...";
+      msg.className = "message";
+
+      try {
+        // 1. GEO API
+        const g = await fetch(
+          `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`
+        );
+        const geo = await g.json();
+
+        if (!geo.results) throw new Error("City not found");
+
+        const loc = geo.results[0];
+
+        // 2. WEATHER API
+        const w = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${loc.latitude}&longitude=${loc.longitude}&current_weather=true&timezone=${loc.timezone}`
+        );
+        const data = await w.json();
+        const cw = data.current_weather;
+
+        cityName.textContent = loc.name;
+        country.textContent = " (" + loc.country + ")";
+        temp.textContent = cw.temperature;
+        condition.textContent = weatherText(cw.weathercode);
+        wind.textContent = cw.windspeed;
+        windDir.textContent = cw.winddirection;
+        time.textContent = cw.time;
+        comment.textContent = advice(cw.temperature);
+
+        msg.textContent = "";
+        card.style.display = "block";
+
+      } catch (err) {
+        msg.textContent = err.message;
+        msg.className = "message error";
+        card.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
